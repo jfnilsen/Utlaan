@@ -36,14 +36,22 @@ public class EquipmentListFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         ListView myListView = (ListView)getActivity().findViewById(R.id.equipmentList);
-        //equipmentList = new ArrayList<>();
-        int layoutID = R.layout.list_item;
+
         connectToJSON("?sort_by=it_no");
+
+        int layoutID = R.layout.list_item;
         myAdapterInstance = new EquipmentAdapter(getActivity(), layoutID, equipmentList);
+
 
         myListView.setAdapter(myAdapterInstance);
 
@@ -52,8 +60,7 @@ public class EquipmentListFragment extends Fragment {
 
 
     private void connectToJSON(final String params) {
-
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 {
@@ -81,9 +88,15 @@ public class EquipmentListFragment extends Fragment {
                 }
 
             }
-        }).start();
+        });
 
+        try {
+            thread.start();
+            thread.join();
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
     private void readServerResponse(InputStream inputStream){
@@ -104,20 +117,18 @@ public class EquipmentListFragment extends Fragment {
             Log.d("MyTag", e.getMessage());
         }
 
-
     }
 
     private void createArrayList(String jsonString) {
         Gson gson = new Gson();
-        Equipment[] downloadedEquipments = gson.fromJson(jsonString, Equipment[].class);
-
-        for (Equipment equipment: downloadedEquipments){
-            equipmentList.add(equipment);
+        if(jsonString != null){
+            Equipment[] downloadedEquipments = gson.fromJson(jsonString, Equipment[].class);
+            for (Equipment equipment: downloadedEquipments){
+                equipmentList.add(equipment);
+            }
         }
 
     }
-
-
 
 
 }

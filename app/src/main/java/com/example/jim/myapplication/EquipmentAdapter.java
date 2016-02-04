@@ -28,10 +28,13 @@ public class EquipmentAdapter extends ArrayAdapter<Equipment> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.list_item, parent, false);
+        if(convertView == null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
+        }
 
-        setDataFields(position, view);
+
+        setDataFields(position, convertView);
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             public void onClick(View view){
@@ -39,8 +42,8 @@ public class EquipmentAdapter extends ArrayAdapter<Equipment> {
 
             }
         };
-        view.setOnClickListener(clickListener);
-        return view;
+        convertView.setOnClickListener(clickListener);
+        return convertView;
 
 
     }
