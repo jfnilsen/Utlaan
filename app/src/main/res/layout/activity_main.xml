@@ -17,11 +17,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Push it"
-        android:onClick="addItem"/>
     <ListView
         android:id="@+id/equipmentList"
         android:layout_height="match_parent"

@@ -1,12 +1,14 @@
 package com.example.jim.myapplication;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,20 +26,39 @@ public class EquipmentAdapter extends ArrayAdapter<Equipment> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.list_item, parent, false);
 
-        TextView typeText = (TextView) view.findViewById(R.id.itemType);
-        typeText.setText(objects.get(position).type);
+        setDataFields(position, view);
 
-        TextView modelText = (TextView) view.findViewById(R.id.itemModel);
-        modelText.setText(objects.get(position).model);
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            public void onClick(View view){
+                Toast.makeText(context,"Row " + position, Toast.LENGTH_SHORT).show();
 
-        TextView onLoan = (TextView) view.findViewById(R.id.itemOnLoan);
-        onLoan.setText(objects.get(position).onLoan + "");
+            }
+        };
+        view.setOnClickListener(clickListener);
         return view;
 
+
     }
+
+    private void setDataFields(int position, View view) {
+        TextView itnoText = (TextView) view.findViewById(R.id.itno);
+        itnoText.setText(objects.get(position).getIt_no());
+
+        TextView typeText = (TextView) view.findViewById(R.id.itemType);
+        typeText.setText(objects.get(position).getType());
+
+        TextView modelText = (TextView) view.findViewById(R.id.itemModel);
+        modelText.setText(objects.get(position).getModel());
+
+        TextView onLoan = (TextView) view.findViewById(R.id.brand);
+        onLoan.setText(objects.get(position).getBrand());
+    }
+
+
+
 }

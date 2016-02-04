@@ -11,6 +11,15 @@
     android:minHeight="?android:attr/listPreferredItemHeightSmall">
 
     <TextView
+        android:id="@+id/itno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="it-no"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <TextView
         android:id="@+id/itemType"
         android:text="type"
         android:layout_width="wrap_content"
@@ -20,18 +29,18 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
     <TextView
-        android:text="model"
-        android:id="@+id/itemModel"
+        android:id="@+id/brand"
+        android:text="brand"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
-
     <TextView
-        android:text="onloan"
-        android:id="@+id/itemOnLoan"
+        android:text="model"
+        android:id="@+id/itemModel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 </LinearLayout>
