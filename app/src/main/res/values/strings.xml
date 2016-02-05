@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name">Utstyrsliste</string>
-
-    <string-array name="abc">
-        <item>Test</item>
-    </string-array>
 </resources>

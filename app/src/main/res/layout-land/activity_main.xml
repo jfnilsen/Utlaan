@@ -26,13 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/detail_fragment" />
-<!--        <FrameLayout
-            android:id="@+id/detail_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
 
-        </FrameLayout>-->
         <fragment
             android:name="com.example.jim.myapplication.EquipmentListFragment"
             android:id="@+id/list_fragment"
