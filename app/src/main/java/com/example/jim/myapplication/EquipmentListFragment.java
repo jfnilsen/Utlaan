@@ -1,5 +1,6 @@
 package com.example.jim.myapplication;
 
+import android.app.Activity;
 import android.app.ListFragment;
 
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -24,14 +26,19 @@ import java.util.ArrayList;
 /**
  * Created by jim on 04.02.16.
  */
-public  class EquipmentListFragment extends ListFragment  {
+public  class EquipmentListFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     OnArticleSelectedListener mCallback;
 
-    ArrayList<Equipment> equipmentList;
+    ArrayList<Equipment> equipmentList = new ArrayList<>();
     String jsonString;
     EquipmentAdapter myAdapterInstance;
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("MyTag", "Item " + position);
+        mCallback.onArticleSelected(position, equipmentList);
+    }
 
 
     public interface OnArticleSelectedListener {
@@ -46,13 +53,14 @@ public  class EquipmentListFragment extends ListFragment  {
     }
 
 
-
+    @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Activity context) {
         super.onAttach(context);
 
         try{
             mCallback = (OnArticleSelectedListener) context;
+            Log.d("MyTag", mCallback.toString());
         }catch (ClassCastException e){
             Log.d("MyTag", e.getMessage());
         }
@@ -62,13 +70,12 @@ public  class EquipmentListFragment extends ListFragment  {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         connectToJSON("?sort_by=it_no");
         int layoutID = R.layout.list_item;
         myAdapterInstance = new EquipmentAdapter(getActivity(), layoutID, equipmentList);
 
         setListAdapter(myAdapterInstance);
-
+        getListView().setOnItemClickListener(this);
     }
 
 

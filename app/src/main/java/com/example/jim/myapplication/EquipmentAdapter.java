@@ -38,13 +38,6 @@ public class EquipmentAdapter extends ArrayAdapter<Equipment>{
 
 
         setDataFields(position, convertView);
-        View.OnClickListener clickListener = new View.OnClickListener() {
-
-            public void onClick(View view){
-                Toast.makeText(context,"Row " + position, Toast.LENGTH_SHORT).show();
-            }
-        };
-        convertView.setOnClickListener(clickListener);
         return convertView;
 
 
