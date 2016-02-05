@@ -2,12 +2,18 @@ package com.example.jim.myapplication;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.ContentUris;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -23,11 +29,19 @@ import java.util.ArrayList;
 /**
  * Created by jim on 04.02.16.
  */
-public class EquipmentListFragment extends Fragment {
+public  class EquipmentListFragment extends Fragment  {
+
+    OnArticleSelectedListener mCallback;
 
     ArrayList<Equipment> equipmentList = new ArrayList<>();
     String jsonString;
     EquipmentAdapter myAdapterInstance;
+
+
+
+    public interface OnArticleSelectedListener {
+        public void onArticleSelected(int position, ArrayList<Equipment> equipments);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,26 +49,31 @@ public class EquipmentListFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try{
+            mCallback = (OnArticleSelectedListener) context;
+        }catch (ClassCastException e){
+            Log.d("MyTag", e.getMessage());
+        }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ListView myListView = (ListView)getActivity().findViewById(R.id.equipmentList);
+
 
         connectToJSON("?sort_by=it_no");
-
+        ListView myListView = (ListView)getActivity().findViewById(R.id.equipmentList);
         int layoutID = R.layout.list_item;
         myAdapterInstance = new EquipmentAdapter(getActivity(), layoutID, equipmentList);
 
-
         myListView.setAdapter(myAdapterInstance);
-
 
     }
 
@@ -95,7 +114,7 @@ public class EquipmentListFragment extends Fragment {
             thread.join();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.d("MyTag", e.getMessage());
         }
 
     }
@@ -121,11 +140,10 @@ public class EquipmentListFragment extends Fragment {
 
     private void createArrayList(String jsonString) {
         Gson gson = new Gson();
-        if(jsonString != null){
-            Equipment[] downloadedEquipments = gson.fromJson(jsonString, Equipment[].class);
-            for (Equipment equipment: downloadedEquipments){
-                equipmentList.add(equipment);
-            }
+
+        Equipment[] downloadedEquipments = gson.fromJson(jsonString, Equipment[].class);
+        for (Equipment equipment: downloadedEquipments){
+            equipmentList.add(equipment);
         }
 
     }

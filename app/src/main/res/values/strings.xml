@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Utlaan</string>
+    <string name="app_name">Utstyrsliste</string>
+
+    <string-array name="abc">
+        <item>Test</item>
+    </string-array>
 </resources>

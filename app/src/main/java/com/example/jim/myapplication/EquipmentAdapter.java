@@ -7,15 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.util.List;
 
 /**
  * Created by Jim on 03/02/2016.
  */
-public class EquipmentAdapter extends ArrayAdapter<Equipment> {
+public class EquipmentAdapter extends ArrayAdapter<Equipment>{
     List<Equipment> objects;
     Context context;
 
@@ -25,8 +27,9 @@ public class EquipmentAdapter extends ArrayAdapter<Equipment> {
         this.objects = objects;
     }
 
+
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -35,11 +38,10 @@ public class EquipmentAdapter extends ArrayAdapter<Equipment> {
 
 
         setDataFields(position, convertView);
-
         View.OnClickListener clickListener = new View.OnClickListener() {
+
             public void onClick(View view){
                 Toast.makeText(context,"Row " + position, Toast.LENGTH_SHORT).show();
-
             }
         };
         convertView.setOnClickListener(clickListener);

@@ -2,11 +2,16 @@ package com.example.jim.myapplication;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements EquipmentListFragment.OnArticleSelectedListener {
 
 
     @Override
@@ -15,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
 
-       // EquipmentListFragment fragment = new EquipmentListFragment();
-        //FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        //fragmentTransaction.add(R.id.fragmentListContainer, fragment).commit();
-
     }
-
+    @Override
+    public void onArticleSelected(int position, ArrayList<Equipment> equipments) {
+        DetailFragment details = (DetailFragment)getFragmentManager().findFragmentById(R.id.detail_fragment);
+        details.showDetails(position, equipments);
+    }
 }
 
