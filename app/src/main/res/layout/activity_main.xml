@@ -19,12 +19,16 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
 
+    <!--<FrameLayout-->
+        <!--android:id="@+id/list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
+
     <fragment
         android:name="com.example.jim.myapplication.EquipmentListFragment"
         android:id="@+id/list_fragment"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/equipments_fragment" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

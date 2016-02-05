@@ -1,19 +1,14 @@
 package com.example.jim.myapplication;
 
-import android.app.Fragment;
 import android.app.ListFragment;
-import android.content.ContentUris;
+
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -29,11 +24,11 @@ import java.util.ArrayList;
 /**
  * Created by jim on 04.02.16.
  */
-public  class EquipmentListFragment extends Fragment  {
+public  class EquipmentListFragment extends ListFragment  {
 
     OnArticleSelectedListener mCallback;
 
-    ArrayList<Equipment> equipmentList = new ArrayList<>();
+    ArrayList<Equipment> equipmentList;
     String jsonString;
     EquipmentAdapter myAdapterInstance;
 
@@ -43,9 +38,10 @@ public  class EquipmentListFragment extends Fragment  {
         public void onArticleSelected(int position, ArrayList<Equipment> equipments);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.equipments_fragment, container, false);
+        return inflater.inflate(R.layout.list_fragment, container, false);
 
     }
 
@@ -67,13 +63,11 @@ public  class EquipmentListFragment extends Fragment  {
         super.onActivityCreated(savedInstanceState);
 
 
-
         connectToJSON("?sort_by=it_no");
-        ListView myListView = (ListView)getActivity().findViewById(R.id.equipmentList);
         int layoutID = R.layout.list_item;
         myAdapterInstance = new EquipmentAdapter(getActivity(), layoutID, equipmentList);
 
-        myListView.setAdapter(myAdapterInstance);
+        setListAdapter(myAdapterInstance);
 
     }
 
@@ -140,7 +134,7 @@ public  class EquipmentListFragment extends Fragment  {
 
     private void createArrayList(String jsonString) {
         Gson gson = new Gson();
-
+        equipmentList = new ArrayList<>();
         Equipment[] downloadedEquipments = gson.fromJson(jsonString, Equipment[].class);
         for (Equipment equipment: downloadedEquipments){
             equipmentList.add(equipment);
