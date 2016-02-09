@@ -31,8 +31,10 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     OnArticleSelectedListener mCallback;
 
     ArrayList<Equipment> equipmentList = new ArrayList<>();
+    String params = "?sort_by=it_no";
     String jsonString;
     EquipmentAdapter myAdapterInstance;
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -48,6 +50,10 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            params = bundle.getString("params");
+        }
         return inflater.inflate(R.layout.list_fragment, container, false);
 
     }
@@ -70,7 +76,7 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        connectToJSON("?sort_by=it_no");
+        connectToJSON();
         int layoutID = R.layout.list_item;
         myAdapterInstance = new EquipmentAdapter(getActivity(), layoutID, equipmentList);
 
@@ -79,7 +85,8 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     }
 
 
-    private void connectToJSON(final String params) {
+
+    private void connectToJSON() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

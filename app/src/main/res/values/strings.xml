@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Utstyrsliste</string>
+    <string name="action_settings">Sort by</string>
+    <string name="itNo">It-no</string>
+    <string name="type">Type</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="about">About</string>
+    <string name="about_message">Temporary about message</string>
+    <string name="ok">Ok</string>
 </resources>
