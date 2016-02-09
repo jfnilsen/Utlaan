@@ -28,7 +28,7 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
     ArrayList<Equipment> equipmentList = new ArrayList<>();
     String sort = "?sort_by=it_no";
-    String whichEquipment = "&which_equipment=ALL";
+    String whichEquipment = "&which_equipment=AVAILABLE";
     EquipmentAdapter myAdapterInstance;
 
 

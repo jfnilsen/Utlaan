@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements EquipmentListFragment.OnArticleSelectedListener {
 
     private int sortOption = 0;
-    private int statusOption = 0;
+    private int statusOption = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
