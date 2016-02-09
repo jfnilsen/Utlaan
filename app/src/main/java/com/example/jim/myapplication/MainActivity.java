@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements EquipmentListFragment.OnArticleSelectedListener {
 
+    private int sortOption = 0;
+    private int statusOption = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +47,21 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
                 AlertDialog.Builder settingsBuilder = new AlertDialog.Builder(this);
                 settingsBuilder.setTitle(R.string.action_settings);
 
-                CharSequence[] calculators = new CharSequence[] {getString(R.string.itNo), getString(R.string.type), getString(R.string.brand), getString(R.string.model)};
-                settingsBuilder.setItems(calculators,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                replaceListFragment(which);
-                                
-                                dialog.dismiss();
-                            }
-                        });
+                CharSequence[] options = new CharSequence[] {getString(R.string.sort), getString(R.string.equipment_status)};
+                settingsBuilder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                showSortSettings();
+                                break;
+                            case 1:
+                                showStatusSettings();
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                });
                 settingsBuilder.show();
 
                 return true;
@@ -70,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
-
-
                                 dialog.dismiss();
                             }
                         });
@@ -85,22 +89,66 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         }
     }
 
-    private void replaceListFragment(int which) {
+    private void showSortSettings() {
+        AlertDialog.Builder settingsBuilder = new AlertDialog.Builder(this);
+        settingsBuilder.setTitle(R.string.sort_by);
+
+        CharSequence[] options = new CharSequence[] {getString(R.string.itNo), getString(R.string.type), getString(R.string.brand), getString(R.string.model)};
+        settingsBuilder.setSingleChoiceItems(options, sortOption, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sortOption = which;
+                replaceListFragment();
+                dialog.dismiss();
+            }
+        });
+        settingsBuilder.show();
+    }
+
+    private void showStatusSettings() {
+        AlertDialog.Builder settingsBuilder = new AlertDialog.Builder(this);
+        settingsBuilder.setTitle(R.string.filter_by);
+
+        CharSequence[] options = new CharSequence[] {getString(R.string.all), getString(R.string.available), getString(R.string.in_use)};
+        settingsBuilder.setSingleChoiceItems(options, statusOption, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                statusOption = which;
+                replaceListFragment();
+                dialog.dismiss();
+            }
+        });
+        settingsBuilder.show();
+    }
+
+    private void replaceListFragment() {
         EquipmentListFragment fragment = new EquipmentListFragment();
         Bundle bundle = new Bundle();
 
-        switch (which){
+        switch (statusOption){
             case 0:
-                bundle.putString("params", "?sort_by=it_no");
+                bundle.putString("filter", "&which_equipment=ALL");
                 break;
             case 1:
-                bundle.putString("params", "?sort_by=type");
+                bundle.putString("filter", "&which_equipment=AVAILABLE");
                 break;
             case 2:
-                bundle.putString("params", "?sort_by=brand");
+                bundle.putString("filter", "&which_equipment=IN_USE");
+                break;
+
+        }
+        switch (sortOption){
+            case 0:
+                bundle.putString("sort", "?sort_by=it_no");
+                break;
+            case 1:
+                bundle.putString("sort", "?sort_by=type");
+                break;
+            case 2:
+                bundle.putString("sort", "?sort_by=brand");
                 break;
             case 3:
-                bundle.putString("params", "?sort_by=model");
+                bundle.putString("sort", "?sort_by=model");
                 break;
 
         }
@@ -110,8 +158,9 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_frame, fragment);
         transaction.commit();
-
     }
+
+
 
     @Override
     public void onArticleSelected(int position, ArrayList<Equipment> equipments) {

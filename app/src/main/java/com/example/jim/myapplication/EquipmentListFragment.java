@@ -27,7 +27,8 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     OnArticleSelectedListener mCallback;
 
     ArrayList<Equipment> equipmentList = new ArrayList<>();
-    String params = "?sort_by=it_no";
+    String sort = "?sort_by=it_no";
+    String whichEquipment = "&which_equipment=ALL";
     EquipmentAdapter myAdapterInstance;
 
 
@@ -47,7 +48,8 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if(bundle != null){
-            params = bundle.getString("params");
+            sort = bundle.getString("sort");
+            whichEquipment = bundle.getString("filter");
         }
         return inflater.inflate(R.layout.list_fragment, container, false);
 
@@ -84,7 +86,7 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
             @Override
             public void run() {
                 {
-                    String jsonURL =  "http://kark.hin.no:8088/d3330log_backend/getTestEquipment" + params;
+                    String jsonURL =  "http://kark.hin.no:8088/d3330log_backend/getTestEquipment" + sort + whichEquipment;
                     HttpURLConnection connection;
                     URL url;
                     try {
