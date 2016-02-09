@@ -23,11 +23,13 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EquipmentListFragment fragment = new EquipmentListFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if(savedInstanceState == null){
+            EquipmentListFragment fragment = new EquipmentListFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.fragment_frame, fragment);
-        transaction.commit();
+            transaction.replace(R.id.fragment_frame, fragment);
+            transaction.commit();
+        }
 
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         transaction.commit();
         getFragmentManager().executePendingTransactions();
 
-       details.showDetails(position, equipments);
+        details.showDetails(position, equipments);
 
     }
 
@@ -183,6 +185,20 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
                 findViewById(R.id.detail_frame).setVisibility(View.GONE);
                 break;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("sort", sortOption);
+        outState.putInt("filter", statusOption);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        sortOption = savedInstanceState.getInt("sort");
+        statusOption = savedInstanceState.getInt("filter");
     }
 }
 
