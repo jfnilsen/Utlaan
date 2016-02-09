@@ -19,21 +19,18 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
 
+        <FrameLayout
+            android:id="@+id/fragment_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
 
-
-    <FrameLayout
-        android:id="@+id/fragment_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
-
-
-    <fragment
-        android:name="com.example.jim.myapplication.DetailFragment"
-        android:id="@+id/detail_fragment"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/detail_fragment" />
+        <FrameLayout
+            android:id="@+id/detail_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"/>
 
 </LinearLayout>

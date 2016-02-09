@@ -1,6 +1,8 @@
 package com.example.jim.myapplication;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -42,8 +44,10 @@ public class DetailFragment extends Fragment {
     public void showDetails(int position, ArrayList<Equipment> objects) {
 
         Equipment equipment = objects.get(position);
-        View detailView = getActivity().findViewById(R.id.detail_fragment);
 
+
+        View detailView = getActivity().findViewById(R.id.detail_frame);
+        //View detailView = activity.findViewById(R.id.detail_fragment);
         ((TextView)detailView.findViewById(R.id.e_id)).setText(String.valueOf(equipment.getE_id()));
         ((TextView)detailView.findViewById(R.id.type)).setText(equipment.getType());
         ((TextView)detailView.findViewById(R.id.brand)).setText(equipment.getBrand());
@@ -53,7 +57,7 @@ public class DetailFragment extends Fragment {
         ((TextView)detailView.findViewById(R.id.aquired)).setText(equipment.getAquired());
         ((TextView)detailView.findViewById(R.id.imageurl)).setText(equipment.getImage_url());
 
-        //TODO: Display the image in the fragment
+       // TODO: Display the image in the fragment
         ImageView image = (ImageView)detailView.findViewById(R.id.image);
         runImageThread(image, equipment.getImage_url());
         image.setImageBitmap(bitmap);

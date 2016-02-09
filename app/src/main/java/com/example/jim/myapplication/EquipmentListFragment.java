@@ -128,6 +128,7 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     }
     private void readServerResponse(InputStream inputStream){
 
+
         StringBuilder builder = new StringBuilder();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String input = "";
@@ -139,7 +140,6 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
             jsonString = builder.toString();
             createArrayList(jsonString);
-
         } catch (IOException e) {
             Log.d("MyTag", e.getMessage());
         }

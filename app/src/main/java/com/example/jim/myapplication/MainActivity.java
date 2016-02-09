@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 
@@ -109,17 +111,29 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_frame, fragment);
         transaction.commit();
-        getFragmentManager().executePendingTransactions();
+
     }
 
     @Override
     public void onArticleSelected(int position, ArrayList<Equipment> equipments) {
-        DetailFragment details = (DetailFragment)getFragmentManager().findFragmentById(R.id.detail_fragment);
-        if(details != null) {
-            details.showDetails(position, equipments);
+        DetailFragment details = new DetailFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FrameLayout detailFrame = (FrameLayout)findViewById(R.id.detail_frame);
+        detailFrame.setVisibility(View.VISIBLE);
+        transaction.replace(R.id.detail_frame, details);
+        transaction.commit();
+        getFragmentManager().executePendingTransactions();
+
+       details.showDetails(position, equipments);
+
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.details_exit:
+                ((FrameLayout)findViewById(R.id.detail_frame)).setVisibility(View.GONE);
+                break;
         }
-
-
     }
 }
 
