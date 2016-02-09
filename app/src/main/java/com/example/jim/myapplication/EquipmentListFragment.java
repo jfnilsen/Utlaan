@@ -3,23 +3,19 @@ package com.example.jim.myapplication;
 import android.app.Activity;
 import android.app.ListFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -32,7 +28,6 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
     ArrayList<Equipment> equipmentList = new ArrayList<>();
     String params = "?sort_by=it_no";
-    String jsonString;
     EquipmentAdapter myAdapterInstance;
 
 
@@ -44,7 +39,7 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
 
     public interface OnArticleSelectedListener {
-        public void onArticleSelected(int position, ArrayList<Equipment> equipments);
+        void onArticleSelected(int position, ArrayList<Equipment> equipments);
     }
 
 
@@ -75,10 +70,8 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        connectToJSON();
-        int layoutID = R.layout.list_item;
-        myAdapterInstance = new EquipmentAdapter(getActivity(), layoutID, equipmentList);
+        getEquipmentFromJson();
+        myAdapterInstance = new EquipmentAdapter(getActivity(), R.layout.list_item, equipmentList);
 
         setListAdapter(myAdapterInstance);
         getListView().setOnItemClickListener(this);
@@ -86,14 +79,14 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
 
 
-    private void connectToJSON() {
+    private void getEquipmentFromJson() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 {
                     String jsonURL =  "http://kark.hin.no:8088/d3330log_backend/getTestEquipment" + params;
-                    HttpURLConnection connection = null;
-                    URL url = null;
+                    HttpURLConnection connection;
+                    URL url;
                     try {
                         url = new URL(jsonURL);
 
@@ -102,12 +95,11 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
                         int responseCode = connection.getResponseCode();
 
                         if(responseCode == HttpURLConnection.HTTP_OK) {
-                            readServerResponse(connection.getInputStream());
+                            Gson gson = new Gson();
+                            equipmentList = gson.fromJson(new InputStreamReader(connection.getInputStream()), new TypeToken<ArrayList<Equipment>>() {}.getType());
                         }else {
                             Log.d("MyTag", "HTTP error code: " + responseCode);
                         }
-                    } catch (MalformedURLException e) {
-                        Log.d("MyTag", e.getMessage());
                     } catch (IOException e) {
                         Log.d("MyTag", e.getMessage());
                     }
@@ -123,35 +115,6 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
         } catch (InterruptedException e) {
             Log.d("MyTag", e.getMessage());
-        }
-
-    }
-    private void readServerResponse(InputStream inputStream){
-
-
-        StringBuilder builder = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String input = "";
-
-        try {
-            while((input = bufferedReader.readLine()) != null){
-                builder.append(input);
-            }
-
-            jsonString = builder.toString();
-            createArrayList(jsonString);
-        } catch (IOException e) {
-            Log.d("MyTag", e.getMessage());
-        }
-
-    }
-
-    private void createArrayList(String jsonString) {
-        Gson gson = new Gson();
-        equipmentList = new ArrayList<>();
-        Equipment[] downloadedEquipments = gson.fromJson(jsonString, Equipment[].class);
-        for (Equipment equipment: downloadedEquipments){
-            equipmentList.add(equipment);
         }
 
     }

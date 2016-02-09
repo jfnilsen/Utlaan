@@ -1,7 +1,6 @@
 package com.example.jim.myapplication;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 import android.content.DialogInterface;
@@ -120,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         FrameLayout detailFrame = (FrameLayout)findViewById(R.id.detail_frame);
         detailFrame.setVisibility(View.VISIBLE);
+
         transaction.replace(R.id.detail_frame, details);
         transaction.commit();
         getFragmentManager().executePendingTransactions();
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.details_exit:
-                ((FrameLayout)findViewById(R.id.detail_frame)).setVisibility(View.GONE);
+                findViewById(R.id.detail_frame).setVisibility(View.GONE);
                 break;
         }
     }

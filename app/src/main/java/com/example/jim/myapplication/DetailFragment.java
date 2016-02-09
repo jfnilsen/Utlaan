@@ -1,24 +1,16 @@
 package com.example.jim.myapplication;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -47,7 +39,7 @@ public class DetailFragment extends Fragment {
 
 
         View detailView = getActivity().findViewById(R.id.detail_frame);
-        //View detailView = activity.findViewById(R.id.detail_fragment);
+
         ((TextView)detailView.findViewById(R.id.e_id)).setText(String.valueOf(equipment.getE_id()));
         ((TextView)detailView.findViewById(R.id.type)).setText(equipment.getType());
         ((TextView)detailView.findViewById(R.id.brand)).setText(equipment.getBrand());
@@ -55,9 +47,7 @@ public class DetailFragment extends Fragment {
         ((TextView)detailView.findViewById(R.id.description)).setText(equipment.getDescription());
         ((TextView)detailView.findViewById(R.id.it_no)).setText(equipment.getIt_no());
         ((TextView)detailView.findViewById(R.id.aquired)).setText(equipment.getAquired());
-        ((TextView)detailView.findViewById(R.id.imageurl)).setText(equipment.getImage_url());
 
-       // TODO: Display the image in the fragment
         ImageView image = (ImageView)detailView.findViewById(R.id.image);
         runImageThread(image, equipment.getImage_url());
         image.setImageBitmap(bitmap);
@@ -69,7 +59,6 @@ public class DetailFragment extends Fragment {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ImageView image = viewById;
                 bitmap = getBitmap(image_url);
 
             }

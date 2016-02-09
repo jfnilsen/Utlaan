@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Utstyrsliste</string>
+    <string name="app_name">Equipment list</string>
     <string name="action_settings">Sort by</string>
     <string name="itNo">It-no</string>
     <string name="type">Type</string>
     <string name="brand">Brand</string>
     <string name="model">Model</string>
     <string name="about">About</string>
-    <string name="about_message">Temporary about message</string>
+    <string name="about_message">Equipment list over the items at HiN. \nCreator: Jim Frode Nilsen</string>
     <string name="ok">Ok</string>
+    <string name="list_fail">List failed to load, check your internet connection.</string>
 </resources>
