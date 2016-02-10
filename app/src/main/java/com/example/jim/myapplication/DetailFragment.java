@@ -49,7 +49,9 @@ public class DetailFragment extends Fragment {
 
         ImageView image = (ImageView)detailView.findViewById(R.id.image);
         runImageThread(image, equipment.getImage_url());
-        image.setImageBitmap(bitmap);
+        if(bitmap != null){
+            image.setImageBitmap(bitmap);
+        }
 
 
     }
