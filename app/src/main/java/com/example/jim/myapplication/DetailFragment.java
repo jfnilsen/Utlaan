@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 public class DetailFragment extends Fragment {
 
     Bitmap bitmap;
+    Equipment equipment;
 
 
     @Override
@@ -27,16 +30,9 @@ public class DetailFragment extends Fragment {
         return inflater.inflate(R.layout.detail_fragment, container, false);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
 
     public void showDetails(Equipment equipment) {
-
-
-
+        this.equipment = equipment;
         View detailView = getActivity().findViewById(R.id.detail_frame);
 
         ((TextView)detailView.findViewById(R.id.e_id)).setText(String.valueOf(equipment.getE_id()));
@@ -83,5 +79,23 @@ public class DetailFragment extends Fragment {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(equipment);
+        outState.putString("json", jsonString);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null){
+            String jsonString = savedInstanceState.getString("json");
+            equipment = new Gson().fromJson(jsonString, Equipment.class);
+            showDetails(equipment);
+        }
     }
 }

@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         super.onSaveInstanceState(outState);
         outState.putInt("sort", sortOption);
         outState.putInt("filter", statusOption);
+        outState.putInt("visibility", ((FrameLayout) findViewById(R.id.detail_frame)).getVisibility());
     }
 
     @Override
@@ -199,6 +200,17 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         super.onRestoreInstanceState(savedInstanceState);
         sortOption = savedInstanceState.getInt("sort");
         statusOption = savedInstanceState.getInt("filter");
+        int visibility = savedInstanceState.getInt("visibility");
+
+        switch (visibility){
+            case View.VISIBLE:
+                ((FrameLayout)findViewById(R.id.detail_frame)).setVisibility(View.VISIBLE);
+                break;
+            case View.GONE:
+                ((FrameLayout)findViewById(R.id.detail_frame)).setVisibility(View.GONE);
+                break;
+        }
+
     }
 }
 
