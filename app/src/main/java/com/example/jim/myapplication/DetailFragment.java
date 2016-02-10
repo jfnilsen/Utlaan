@@ -33,9 +33,8 @@ public class DetailFragment extends Fragment {
 
     }
 
-    public void showDetails(int position, ArrayList<Equipment> objects) {
+    public void showDetails(Equipment equipment) {
 
-        Equipment equipment = objects.get(position);
 
 
         View detailView = getActivity().findViewById(R.id.detail_frame);

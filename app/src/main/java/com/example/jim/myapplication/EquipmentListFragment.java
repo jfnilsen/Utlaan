@@ -35,12 +35,12 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d("MyTag", "Item " + position);
-        mCallback.onArticleSelected(position, equipmentList);
+        mCallback.onArticleSelected( equipmentList.get(position));
     }
 
 
     public interface OnArticleSelectedListener {
-        void onArticleSelected(int position, ArrayList<Equipment> equipments);
+        void onArticleSelected(Equipment equipment);
     }
 
 

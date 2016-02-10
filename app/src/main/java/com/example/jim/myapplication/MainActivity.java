@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
 
 
     @Override
-    public void onArticleSelected(int position, ArrayList<Equipment> equipments) {
+    public void onArticleSelected(Equipment equipment) {
         DetailFragment details = new DetailFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         FrameLayout detailFrame = (FrameLayout)findViewById(R.id.detail_frame);
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         transaction.commit();
         getFragmentManager().executePendingTransactions();
 
-        details.showDetails(position, equipments);
+        details.showDetails(equipment);
 
     }
 
