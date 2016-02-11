@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,10 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements EquipmentListFragment.OnArticleSelectedListener {
 
+    public static final String PREFS_NAME = "MyListPreferences";
     private int sortOption = 0;
     private int statusOption = 1;
 
@@ -23,12 +24,12 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState == null){
-            EquipmentListFragment fragment = new EquipmentListFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
+        sortOption = prefs.getInt("sortOption", 0);
+        statusOption = prefs.getInt("filterOption", 1);
 
-            transaction.replace(R.id.fragment_frame, fragment);
-            transaction.commit();
+        if(savedInstanceState == null){
+            replaceListFragment();
         }
 
         setContentView(R.layout.activity_main);
@@ -204,13 +205,28 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
 
         switch (visibility){
             case View.VISIBLE:
-                ((FrameLayout)findViewById(R.id.detail_frame)).setVisibility(View.VISIBLE);
+                findViewById(R.id.detail_frame).setVisibility(View.VISIBLE);
                 break;
             case View.GONE:
-                ((FrameLayout)findViewById(R.id.detail_frame)).setVisibility(View.GONE);
+                findViewById(R.id.detail_frame).setVisibility(View.GONE);
                 break;
         }
 
+    }
+
+    private void writeToSharedPreference(){
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("sortOption", sortOption);
+        editor.putInt("filterOption", statusOption);
+        editor.commit();
+        super.onStop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        writeToSharedPreference();
     }
 }
 
