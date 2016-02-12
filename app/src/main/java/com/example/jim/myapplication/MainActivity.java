@@ -86,6 +86,9 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
                 alertDialog.show();
 
                 return true;
+            case R.id.update:
+                replaceListFragment();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         super.onSaveInstanceState(outState);
         outState.putInt("sort", sortOption);
         outState.putInt("filter", statusOption);
-        outState.putInt("visibility", ((FrameLayout) findViewById(R.id.detail_frame)).getVisibility());
+        outState.putInt("visibility", findViewById(R.id.detail_frame).getVisibility());
     }
 
     @Override
@@ -219,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("sortOption", sortOption);
         editor.putInt("filterOption", statusOption);
-        editor.commit();
+        editor.apply();
         super.onStop();
     }
 

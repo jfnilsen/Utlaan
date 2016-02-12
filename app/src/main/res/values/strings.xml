@@ -16,4 +16,6 @@
     <string name="in_use">In use</string>
     <string name="sort_by">Sort by</string>
     <string name="filter_by">Filter by</string>
+    <string name="resync">Resync</string>
+    <string name="exit">Exit</string>
 </resources>
