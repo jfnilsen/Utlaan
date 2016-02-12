@@ -72,11 +72,16 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getEquipmentFromJson();
         myAdapterInstance = new EquipmentAdapter(getActivity(), R.layout.list_item, equipmentList);
-
         setListAdapter(myAdapterInstance);
         getListView().setOnItemClickListener(this);
+        if(savedInstanceState == null){
+            getEquipmentFromJson();
+        }else {
+            equipmentList.addAll((ArrayList<Equipment>)savedInstanceState.getSerializable("equipments"));
+            myAdapterInstance.notifyDataSetChanged();
+        }
+
     }
 
 
@@ -98,7 +103,10 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
 
                         if(responseCode == HttpURLConnection.HTTP_OK) {
                             Gson gson = new Gson();
-                            equipmentList = gson.fromJson(new InputStreamReader(connection.getInputStream()), new TypeToken<ArrayList<Equipment>>() {}.getType());
+                            equipmentList.clear();
+                            equipmentList.addAll((ArrayList<Equipment>) gson.fromJson(new InputStreamReader(connection.getInputStream()), new TypeToken<ArrayList<Equipment>>() {
+                            }.getType()));
+                            myAdapterInstance.notifyDataSetChanged();
                         }else {
                             Log.d("MyTag", "HTTP error code: " + responseCode);
                         }
@@ -111,15 +119,21 @@ public  class EquipmentListFragment extends ListFragment implements AdapterView.
             }
         });
 
+
         try {
             thread.start();
             thread.join();
-
         } catch (InterruptedException e) {
-            Log.d("MyTag", e.getMessage());
+            e.printStackTrace();
         }
+
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("equipments", equipmentList);
+    }
 
 }
