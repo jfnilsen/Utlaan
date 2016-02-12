@@ -18,4 +18,11 @@
     <string name="filter_by">Filter by</string>
     <string name="resync">Resync</string>
     <string name="exit">Exit</string>
+    <string name="gete_id">E_ID:\t</string>
+    <string name="get_type">Type:\t</string>
+    <string name="get_brand">Brand:\t</string>
+    <string name="get_model">Model:\t</string>
+    <string name="get_description">Description:\t</string>
+    <string name="get_it_no">It_no:\t</string>
+    <string name="get_aquired">Acquired:\t</string>
 </resources>

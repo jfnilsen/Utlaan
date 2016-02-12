@@ -1,6 +1,8 @@
 package com.example.jim.myapplication;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+
 /**
 
  * Created by wfa on 07.04.2015.
@@ -8,7 +10,7 @@ import com.google.gson.Gson;
  * Objekter av denne typen representerer utstyr (nettbrett, smartklokker osv).
  *
  */
-public class Equipment {
+public class Equipment implements Serializable {
     private int e_id;           //Primærnøkkelfelt, autogenereres i databasen.
     private String type;        //Type/gruppe utstyr, f.eks. "Nettbrett". Settes til en av verdiene fra: http://kark.hin.no:8088/d3330log_backend/utstyrstyper.txt
     private String brand;       //F.eks. "Samsung"

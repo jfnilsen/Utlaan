@@ -184,11 +184,7 @@ public class MainActivity extends AppCompatActivity implements EquipmentListFrag
     }
 
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.details_exit:
-                findViewById(R.id.detail_frame).setVisibility(View.GONE);
-                break;
-        }
+        findViewById(R.id.detail_frame).setVisibility(View.GONE);
     }
 
     @Override
